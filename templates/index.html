@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeCapital | Loan Application</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    body {
+        background-color: #0e1417;
+        color: #dde3e7;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+
+    .glass-card {
+        background: rgba(16, 33, 65, 0.6);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glow-button {
+        transition: all 0.3s ease;
+    }
+
+    .glow-button:hover {
+        box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+        transform: translateY(-1px);
+    }
+
+    .input-glow:focus {
+        box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0e1417; }
+    ::-webkit-scrollbar-thumb { background: #3c494e; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #47d6ff; }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-low": "#161d1f",
+            "on-tertiary": "#00382d",
+            "on-secondary": "#003739",
+            "on-error-container": "#ffdad6",
+            "on-background": "#dde3e7",
+            "primary-fixed": "#b6ebff",
+            "on-secondary-container": "#006c71",
+            "tertiary": "#58f5d0",
+            "surface-bright": "#333a3d",
+            "on-error": "#690005",
+            "surface-container-highest": "#2f3639",
+            "tertiary-container": "#2ed8b5",
+            "error": "#ffb4ab",
+            "on-surface": "#dde3e7",
+            "on-primary-container": "#00566a",
+            "surface-container": "#1a2123",
+            "primary": "#a5e7ff",
+            "on-primary-fixed-variant": "#004e60",
+            "on-surface-variant": "#bbc9cf",
+            "surface-tint": "#47d6ff",
+            "on-secondary-fixed-variant": "#004f53",
+            "surface-dim": "#0e1417",
+            "background": "#0e1417",
+            "outline": "#859399",
+            "on-tertiary-fixed-variant": "#005142",
+            "surface-container-lowest": "#090f12",
+            "on-tertiary-fixed": "#002019",
+            "on-primary": "#003543",
+            "surface-container-high": "#242b2e",
+            "inverse-on-surface": "#2b3134",
+            "surface": "#0e1417",
+            "secondary-fixed": "#63f7ff",
+            "secondary-fixed-dim": "#00dce5",
+            "primary-container": "#00d2ff",
+            "on-secondary-fixed": "#002021",
+            "tertiary-fixed": "#5ffbd6",
+            "error-container": "#93000a",
+            "secondary-container": "#00f4fe",
+            "tertiary-fixed-dim": "#38debb",
+            "secondary": "#e6feff",
+            "outline-variant": "#3c494e",
+            "on-tertiary-container": "#005a49",
+            "on-primary-fixed": "#001f28",
+            "inverse-primary": "#00677f",
+            "inverse-surface": "#dde3e7",
+            "primary-fixed-dim": "#47d6ff",
+            "surface-variant": "#2f3639"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "container-padding-desktop": "40px",
+            "container-padding-mobile": "20px",
+            "base": "8px",
+            "gutter": "24px",
+            "card-gap": "16px"
+          },
+          fontFamily: {
+            "label-mono": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "button": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"]
+          },
+          fontSize: {
+            "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+            "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "button": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+            "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+</script>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-20 bg-surface/60 backdrop-blur-3xl border-b border-white/10 shadow-[0_0_20px_rgba(0,210,255,0.15)]">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-2xl md:text-display-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">LuxeCapital</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">New Application</a>
+</div>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">
+<span class="material-symbols-outlined text-primary">smart_toy</span>
+ML-Powered Loan Eligibility
+</div>
+</nav>
+
+<!-- Main Content Area -->
+<main class="flex-grow pt-32 pb-20 px-container-padding-mobile md:px-container-padding-desktop flex items-center justify-center relative overflow-hidden">
+<!-- Atmospheric Background Elements -->
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+<div class="w-full max-w-4xl glass-card rounded-xl p-8 md:p-12 relative z-10">
+<!-- Header Section -->
+<div class="mb-10 text-center">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2 text-on-surface">Check Your Eligibility</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Fill in your details and our model will predict loan approval instantly.</p>
+</div>
+
+<!-- Application Form -->
+<form class="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-8" action="/predict" method="POST">
+
+<!-- Section Label -->
+<div class="md:col-span-2">
+<p class="font-label-mono text-label-mono text-primary uppercase tracking-widest border-b border-outline-variant pb-2">Personal Info</p>
+</div>
+
+<!-- Personal Info Row -->
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Gender</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="gender" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="1">Male</option>
+<option class="bg-surface-container-high" value="0">Female</option>
+</select>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Marital Status</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="married" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="1">Married</option>
+<option class="bg-surface-container-high" value="0">Single</option>
+</select>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Dependents</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="dependents" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="0">0</option>
+<option class="bg-surface-container-high" value="1">1</option>
+<option class="bg-surface-container-high" value="2">2</option>
+<option class="bg-surface-container-high" value="3">3+</option>
+</select>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Education</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="education" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="0">Graduate</option>
+<option class="bg-surface-container-high" value="1">Not Graduate</option>
+</select>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Self Employed</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="self_employed" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="1">Yes</option>
+<option class="bg-surface-container-high" value="0">No</option>
+</select>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Property Area</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="property_area" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="2">Urban</option>
+<option class="bg-surface-container-high" value="1">Semiurban</option>
+<option class="bg-surface-container-high" value="0">Rural</option>
+</select>
+</div>
+
+<!-- Section Label -->
+<div class="md:col-span-2 pt-2">
+<p class="font-label-mono text-label-mono text-primary uppercase tracking-widest border-b border-outline-variant pb-2">Financial Info</p>
+</div>
+
+<!-- Financial Row -->
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Applicant Income (₹/month)</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md placeholder:text-outline-variant" type="number" name="applicant_income" placeholder="e.g. 5000" min="0" required/>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Co-applicant Income (₹/month)</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md placeholder:text-outline-variant" type="number" name="coapplicant_income" placeholder="e.g. 2000" min="0" required/>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Loan Amount (in thousands ₹)</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md placeholder:text-outline-variant" type="number" name="loan_amount" placeholder="e.g. 150" min="0" required/>
+</div>
+
+<div class="space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Loan Term (months)</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant text-on-surface py-2 focus:ring-0 focus:border-primary input-glow transition-all font-body-md" name="loan_amount_term" required>
+<option class="bg-surface-container-high" disabled selected value="">Select</option>
+<option class="bg-surface-container-high" value="360">360 months (30 yrs)</option>
+<option class="bg-surface-container-high" value="180">180 months (15 yrs)</option>
+<option class="bg-surface-container-high" value="120">120 months (10 yrs)</option>
+<option class="bg-surface-container-high" value="84">84 months (7 yrs)</option>
+<option class="bg-surface-container-high" value="60">60 months (5 yrs)</option>
+<option class="bg-surface-container-high" value="36">36 months (3 yrs)</option>
+<option class="bg-surface-container-high" value="12">12 months (1 yr)</option>
+</select>
+</div>
+
+<!-- Credit History -->
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-mono text-label-mono text-outline uppercase tracking-wider">Credit History</label>
+<div class="grid grid-cols-2 gap-4 mt-2">
+<label class="credit-toggle border border-outline-variant rounded-lg p-3 text-center transition-all font-body-md hover:bg-white/5 cursor-pointer flex items-center justify-center gap-2 has-[:checked]:bg-primary/10 has-[:checked]:border-primary has-[:checked]:text-primary">
+<input type="radio" name="credit_history" value="1" class="sr-only" required/>
+Good (Meets guidelines)
+</label>
+<label class="credit-toggle border border-outline-variant rounded-lg p-3 text-center transition-all font-body-md hover:bg-white/5 cursor-pointer flex items-center justify-center gap-2 has-[:checked]:bg-primary/10 has-[:checked]:border-primary has-[:checked]:text-primary">
+<input type="radio" name="credit_history" value="0" class="sr-only" required/>
+Bad (Does not meet guidelines)
+</label>
+</div>
+</div>
+
+<!-- Form Action -->
+<div class="md:col-span-2 pt-6">
+<button class="w-full py-4 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-fixed font-button text-button rounded-xl glow-button active:scale-[0.98] transition-transform" type="submit">
+Check Eligibility →
+</button>
+</div>
+
+</form>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full mt-auto bg-surface-container-lowest/40 backdrop-blur-2xl border-t border-white/10 py-gutter px-container-padding-mobile md:px-container-padding-desktop flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline-lg text-headline-lg-mobile text-on-surface">LuxeCapital</span>
+<p class="font-label-mono text-label-mono text-on-surface-variant text-center md:text-left">AIML Internship 2026 · IIHMF, MNNIT Allahabad · Loan Approval Prediction System</p>
+</div>
+</footer>
+
+
+<script>
+// ── INPUT VALIDATION ──
+const numericFields = ['applicant_income', 'coapplicant_income', 'loan_amount'];
+
+// Block letters/emoji on keypress
+numericFields.forEach(name => {
+    const input = document.querySelector(`input[name="${name}"]`);
+    if (!input) return;
+
+    // Block non-numeric keys (allow: digits, backspace, delete, arrows, tab, decimal)
+    input.addEventListener('keydown', (e) => {
+        const allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Tab','Home','End'];
+        if (allowed.includes(e.key)) return;
+        if (e.ctrlKey || e.metaKey) return; // allow ctrl+c, ctrl+v etc
+        if (!/^\d$/.test(e.key) && e.key !== '.') {
+            e.preventDefault();
+            showError(input, '⚠ Only numbers allowed here');
+        }
+    });
+
+    // Clean paste - strip non-numeric characters
+    input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const cleaned = pasted.replace(/[^0-9.]/g, '');
+        if (pasted !== cleaned) {
+            showError(input, '⚠ Letters/emojis removed from paste');
+        }
+        input.value = cleaned;
+    });
+
+    // Clean on input (catches mobile/emoji keyboards)
+    input.addEventListener('input', () => {
+        const cleaned = input.value.replace(/[^0-9.]/g, '');
+        if (input.value !== cleaned) {
+            showError(input, '⚠ Only numbers allowed here');
+            input.value = cleaned;
+        } else {
+            clearError(input);
+        }
+    });
+});
+
+// Show error message below input
+function showError(input, msg) {
+    clearError(input);
+    input.style.borderColor = '#ef4444';
+    const err = document.createElement('div');
+    err.className = '__val-err';
+    err.style.cssText = 'color:#ef4444;font-size:0.78rem;margin-top:4px;';
+    err.textContent = msg;
+    input.parentNode.appendChild(err);
+    setTimeout(() => clearError(input), 2500);
+}
+
+function clearError(input) {
+    input.style.borderColor = '';
+    const existing = input.parentNode.querySelector('.__val-err');
+    if (existing) existing.remove();
+}
+
+// Form submit validation
+document.querySelector('form').addEventListener('submit', (e) => {
+    let hasError = false;
+    numericFields.forEach(name => {
+        const input = document.querySelector(`input[name="${name}"]`);
+        if (!input) return;
+        const val = input.value.trim();
+        if (!val || isNaN(val) || Number(val) < 0) {
+            showError(input, '⚠ Please enter a valid positive number');
+            hasError = true;
+        }
+    });
+    if (hasError) e.preventDefault();
+});
+</script>
+
+</body>
+</html>

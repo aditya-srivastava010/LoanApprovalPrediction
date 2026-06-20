@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luxe Capital | AI-Powered Loan Decisions</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #0d1117;
+  --surface2: #111827;
+  --border: #1f2937;
+  --blue: #3b82f6;
+  --blue-dim: #1d4ed8;
+  --cyan: #06b6d4;
+  --text: #f1f5f9;
+  --text-2: #94a3b8;
+  --text-3: #475569;
+  --green: #10b981;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── GRID BG ── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.blob {
+  position: fixed; border-radius: 50%; filter: blur(120px);
+  opacity: 0.12; pointer-events: none; z-index: 0;
+  animation: blobFloat 8s ease-in-out infinite;
+}
+.blob-1 { width: 500px; height: 500px; background: #3b82f6; top: -100px; right: -100px; animation-delay: 0s; }
+.blob-2 { width: 400px; height: 400px; background: #06b6d4; bottom: 100px; left: -100px; animation-delay: 3s; }
+
+@keyframes blobFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(20px,-20px) scale(1.05); }
+}
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 70px;
+  background: rgba(8,12,20,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  animation: slideDown 0.6s ease;
+}
+
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem; font-weight: 700;
+  background: linear-gradient(135deg, #fff 0%, var(--blue) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a {
+  color: var(--text-2); text-decoration: none; font-size: 0.9rem;
+  font-weight: 500; transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px; background: var(--blue); transform: scaleX(0);
+  transition: transform 0.2s; border-radius: 2px;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.btn-primary {
+  background: var(--blue); color: #fff; border: none; cursor: pointer;
+  padding: 10px 24px; border-radius: 8px;
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;
+  transition: all 0.2s; letter-spacing: 0.3px;
+}
+.btn-primary:hover { background: var(--blue-dim); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+
+.btn-outline {
+  background: transparent; color: var(--text); border: 1px solid var(--border); cursor: pointer;
+  padding: 14px 32px; border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 100px 20px 60px; position: relative; z-index: 1;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);
+  padding: 6px 16px; border-radius: 99px;
+  font-size: 0.78rem; font-weight: 600; color: var(--blue);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.hero-badge-dot {
+  width: 6px; height: 6px; background: var(--blue); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 700; line-height: 1.1; letter-spacing: -1.5px;
+  color: #fff; margin-bottom: 24px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.1rem; color: var(--text-2); line-height: 1.7;
+  max-width: 560px; margin: 0 auto 40px;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.hero-buttons {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+.btn-hero {
+  background: var(--blue); color: #fff; border: none; cursor: pointer;
+  padding: 16px 36px; border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600;
+  transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-hero:hover { background: var(--blue-dim); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(59,130,246,0.35); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── STATS ── */
+.stats {
+  display: flex; justify-content: center; gap: 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1; background: rgba(13,17,23,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.stat {
+  flex: 1; max-width: 220px; padding: 36px 20px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem; font-weight: 700; color: var(--blue);
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.72rem; color: var(--text-3); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px;
+}
+
+/* ── FEATURES ── */
+.section { padding: 100px 40px; position: relative; z-index: 1; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700;
+  color: #fff; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px;
+}
+
+.section-sub { color: var(--text-2); text-align: center; margin-bottom: 60px; font-size: 1rem; }
+
+.section-line {
+  width: 48px; height: 3px; background: linear-gradient(90deg, var(--blue), var(--cyan));
+  margin: 12px auto 48px; border-radius: 2px;
+}
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+.card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+
+.card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.05), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+
+.card:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: rgba(59,130,246,0.1); display: flex; align-items: center;
+  justify-content: center; font-size: 1.5rem; margin-bottom: 20px;
+  transition: background 0.3s;
+}
+
+.card:hover .card-icon { background: rgba(59,130,246,0.2); }
+
+.card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 10px;
+}
+
+.card p { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; }
+
+/* ── HOW IT WORKS ── */
+.how-section {
+  padding: 100px 40px; background: rgba(13,17,23,0.5);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+
+.steps { display: flex; flex-direction: column; gap: 40px; max-width: 560px; }
+
+.step { display: flex; gap: 20px; align-items: flex-start; }
+
+.step-num {
+  flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--blue); color: #fff; display: flex;
+  align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700;
+  box-shadow: 0 0 0 6px rgba(59,130,246,0.15);
+}
+
+.step-content h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 6px;
+}
+
+.step-content p { font-size: 0.9rem; color: var(--text-2); line-height: 1.6; }
+
+.how-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+
+.how-visual {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 32px; position: relative;
+}
+
+.mock-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.mock-bar-label { font-size: 0.78rem; color: var(--text-2); width: 90px; flex-shrink: 0; }
+.mock-bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.mock-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+
+.mock-result {
+  margin-top: 28px; padding: 20px; background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.25); border-radius: 12px;
+  display: flex; align-items: center; gap: 14px;
+}
+
+.mock-result-icon { font-size: 1.4rem; }
+.mock-result-label { font-size: 0.78rem; color: var(--text-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+.mock-result-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--green); }
+
+/* ── CTA ── */
+.cta-section {
+  padding: 100px 40px; position: relative; z-index: 1; text-align: center;
+}
+
+.cta-box {
+  max-width: 760px; margin: 0 auto;
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(6,182,212,0.06));
+  border: 1px solid rgba(59,130,246,0.25); border-radius: 24px;
+  padding: 72px 48px; position: relative; overflow: hidden;
+}
+
+.cta-box::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 240px; height: 240px; background: rgba(59,130,246,0.1);
+  border-radius: 50%; filter: blur(60px);
+}
+
+.cta-box h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem; font-weight: 700; color: #fff;
+  margin-bottom: 16px; letter-spacing: -0.5px; position: relative;
+}
+
+.cta-box p { color: var(--text-2); margin-bottom: 40px; font-size: 1rem; position: relative; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border); padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px; position: relative; z-index: 1;
+}
+
+.footer-logo {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem;
+  background: linear-gradient(135deg, #fff, var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.footer-copy { font-size: 0.82rem; color: var(--text-3); }
+
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 0.82rem; color: var(--text-3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--blue); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 70px 20px; }
+  .how-section { padding: 70px 20px; }
+  .how-inner { grid-template-columns: 1fr; gap: 48px; }
+  .cta-section { padding: 70px 20px; }
+  .cta-box { padding: 48px 24px; }
+  .stats { flex-wrap: wrap; }
+  .stat { flex: 1 0 45%; border-right: 1px solid var(--border); }
+  footer { flex-direction: column; text-align: center; padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">Luxe Capital</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+  </div>
+  <a href="/login"><button class="btn-primary">Get Started →</button></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      AI-Powered · Machine Learning · Real-time
+    </div>
+    <h1>Smart Loan Decisions,<br/><span>Powered by AI</span></h1>
+    <p>Get instant loan approval predictions based on your financial profile using advanced Machine Learning algorithms trained on real banking data.</p>
+    <div class="hero-buttons">
+      <a href="/login"><button class="btn-hero">Check Your Eligibility →</button></a>
+      <a href="#how"><button class="btn-outline">How It Works</button></a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num" data-target="614">0</div>
+    <div class="stat-label">Applications Trained On</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-target="85">0</div>
+    <div class="stat-label">% Prediction Accuracy</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-target="3">0</div>
+    <div class="stat-label">ML Models Compared</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-title">Precision-Engineered Prediction</div>
+      <div class="section-line"></div>
+      <div class="section-sub">Everything you need for accurate, fast, and secure loan assessment</div>
+    </div>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Instant Prediction</h3>
+        <p>Get results in seconds. Our optimized Random Forest model processes your financial profile and returns approval probability in real-time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Secure & Private</h3>
+        <p>Your data stays safe. All inputs are processed locally within the application — no data is shared with third parties.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>AI Powered</h3>
+        <p>Built with Random Forest ML, trained and evaluated against Logistic Regression and Gradient Boosting for maximum reliability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="reveal">
+      <div class="section-title" style="text-align:left;">Simple Three-Step Process</div>
+      <div class="section-line" style="margin-left:0;"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Create an account</h4>
+            <p>Sign up quickly and securely to access the loan prediction dashboard.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Enter your financial details</h4>
+            <p>Fill in your income, loan amount, credit history and other key indicators.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Get instant loan approval prediction</h4>
+            <p>Receive your result with approval probability and personalised suggestions instantly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="how-visual reveal">
+      <div style="font-size:0.75rem;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;">Live Analysis Preview</div>
+      <div class="mock-bar">
+        <div class="mock-bar-label">Credit History</div>
+        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:90%;"></div></div>
+      </div>
+      <div class="mock-bar">
+        <div class="mock-bar-label">Total Income</div>
+        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:74%;background:linear-gradient(90deg,#6366f1,#8b5cf6);"></div></div>
+      </div>
+      <div class="mock-bar">
+        <div class="mock-bar-label">Loan Amount</div>
+        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:58%;background:linear-gradient(90deg,#06b6d4,#0891b2);"></div></div>
+      </div>
+      <div class="mock-bar">
+        <div class="mock-bar-label">EMI Balance</div>
+        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:82%;background:linear-gradient(90deg,#10b981,#059669);"></div></div>
+      </div>
+      <div class="mock-result">
+        <div class="mock-result-icon">✅</div>
+        <div>
+          <div class="mock-result-label">Analysis Complete</div>
+          <div class="mock-result-val">81.3%</div>
+          <div style="font-size:0.78rem;color:var(--text-2);">Loan Approval Confidence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box reveal">
+    <h2>Ready to secure your financial future?</h2>
+    <p>Join 600+ users who have leveraged our AI to navigate their lending options with clarity.</p>
+    <a href="/login"><button class="btn-hero">Get Your Prediction Now →</button></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Luxe Capital</div>
+  <div class="footer-copy">Luxe Capital © 2026 | AIML Summer Internship | MNNIT Allahabad</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+// Counter animation
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.textContent.includes('%') ? '%' : el.textContent.includes('+') ? '+' : '';
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current + (target >= 100 ? '+' : target === 3 ? '' : '%');
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+
+// Stats counter trigger
+const statNums = document.querySelectorAll('.stat-num');
+const statsObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { animateCounter(e.target); statsObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+statNums.forEach(el => statsObs.observe(el));
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+reveals.forEach(el => revealObs.observe(el));
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.background = window.scrollY > 50 ? 'rgba(8,12,20,0.97)' : 'rgba(8,12,20,0.8)';
+});
+</script>
+</body>
+</html>
